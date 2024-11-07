@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Users')
+@section('title', 'Products')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -11,14 +11,14 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Users</h1>
+                <h1>Products</h1>
                 <div class="section-header-button">
-                    <a href="{{ route('user.create') }}" class="btn btn-primary">Add New</a>
+                    <a href="{{ route('product.create') }}" class="btn btn-primary">Add New</a>
                 </div>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ url('home') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Users</a></div>
-                    <div class="breadcrumb-item">All Users</div>
+                    <div class="breadcrumb-item"><a href="#">Products</a></div>
+                    <div class="breadcrumb-item">All Products</div>
                 </div>
             </div>
             <div class="section-body">
@@ -28,7 +28,6 @@
                     </div>
                 </div>
 
-
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card">
@@ -36,12 +35,13 @@
                             <div class="card-body">
 
                                 <div class="float-right">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search" name="name">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                    <form method="GET" action="{{ route('product.index') }}">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search" name="name">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                            </div>
                                         </div>
-                                    </div>
                                     </form>
                                 </div>
 
@@ -52,38 +52,45 @@
                                         <tr>
 
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Roles</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Photo</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
-                                        @foreach ($users as $user)
+                                        @foreach ($products as $product)
                                             <tr>
 
-                                                <td>{{ $user->name }}
+                                                <td>{{ $product->name }}
                                                 </td>
                                                 <td>
-                                                    {{ $user->email }}
-                                                </td>
-                                                <td>
-                                                    {{ $user->phone }}
-                                                </td>
-                                                <td>
-                                                    {{ $user->roles }}
+                                                    {{ $product->category }}
                                                 </td>
 
-                                                <td>{{ $user->created_at }}</td>
+                                                {{-- {{ $product->price }} --}}
+                                                <td> {{ sprintf('Rp. %s', number_format($product->price)) }}
+                                                </td>
+
+                                                <td>
+                                                    @if ($product->image)
+                                                        <img src="{{ asset('storage/products/' . $product->image) }}"
+                                                            alt="" width="100px" class="img-thumbnail">
+                                                    @else
+                                                        <span class="badge badge-danger">No Image</span>
+                                                    @endif
+
+                                                </td>
+                                                <td>{{ $product->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
                                                         @if (auth()->user()->roles != 'USER')
-                                                            <a href='{{ route('user.edit', $user->id) }}'
+                                                            <a href='{{ route('product.edit', $product->id) }}'
                                                                 class="btn btn-sm btn-info btn-icon">
                                                                 <i class="fas fa-edit"></i> Edit
                                                             </a>
                                                         @endif
                                                         @if (auth()->user()->roles == 'STAF' || auth()->user()->roles == 'ADMIN')
-                                                            <form action="{{ route('user.destroy', $user->id) }}"
+                                                            <form action="{{ route('product.destroy', $product->id) }}"
                                                                 method="POST" class="ml-2">
                                                                 @method('DELETE')
                                                                 @csrf
@@ -102,7 +109,8 @@
                                     </table>
                                 </div>
                                 <div class="float-right">
-                                    {{ $users->withQueryString()->links() }}
+                                    {{ $products->withQueryString()->links() }}
+
                                 </div>
                             </div>
                         </div>

@@ -4,8 +4,7 @@
 
 @push('style')
     <!-- CSS Libraries -->
-    <link rel="stylesheet"
-        href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
 @endpush
 
 @section('main')
@@ -15,13 +14,8 @@
         </div>
 
         <div class="card-body">
-            <form method="POST"
-                action="{{ route('login') }}"
-
-                {{-- <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
-                    @csrf --}}
-                class="needs-validation"
-                novalidate="">
+            <form method="POST" action="{{ route('login') }}" {{-- <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
+                    @csrf --}} class="needs-validation" novalidate="">
                 @csrf
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -51,15 +45,15 @@
                 </div>
             </form>
 
-            </div>
         </div>
-        <div class="text-muted mt-5 text-center">
-            Don't have an account? <a href="{{route('register') }}">Create One</a>
-        </div>
-    @endsection
+    </div>
+    <div class="text-muted mt-5 text-center">
+        Don't have an account? <a href="auth-register.html">Create One</a>
+    </div>
+@endsection
 
-    @push('scripts')
-        <!-- JS Libraies -->
+@push('scripts')
+    <!-- JS Libraies -->
 
-        <!-- Page Specific JS File -->
+    <!-- Page Specific JS File -->
 @endpush

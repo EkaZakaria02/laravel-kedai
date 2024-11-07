@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Bos Muda',
             'email' => 'warkop@gmail.com',
             'password' => Hash::make('456'), // Pastikan password aman
+            'roles' => 'admin'
         ]);
+
+        $this->call([ProductSeeder::class
+    ]);
     }
 }
